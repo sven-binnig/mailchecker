@@ -1,0 +1,98 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package de.biware.mailchecker.ui;
+
+import de.biware.mailchecker.api.MailAccount;
+import de.biware.mailchecker.api.MailCheckerException;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
+
+/**
+ *
+ * @author svenina
+ */
+public class DefaultMailCheckView extends BorderPane implements MailCheckView {
+
+    private static final MailAccount[] M_ACCOUNTS = {
+        new MailAccount("Corina Dörnenburg", "corina.doernenburg@posteo.de", "Kacs6670", "posteo.de", 993),
+        new MailAccount("Sven Binnig", "sven.binnig@posteo.de", "Kacs6670", "posteo.de", 993)
+        
+    };
+    private GridPane gpUnreadMails;
+    private final MailCheckPresenter presenter;
+
+    public DefaultMailCheckView(MailCheckPresenter presenter) {
+        super();
+        this.presenter = presenter;
+        this.presenter.registerMailCheckView(this);
+        initUI();
+    }
+
+    private void initUI() {
+        createComponents();
+        layoutComponents();
+        installActionListeners();
+    }
+
+    private void createComponents() {
+        this.gpUnreadMails = new GridPane();
+        this.gpUnreadMails.setVgap(5);
+        this.gpUnreadMails.setHgap(15);
+    }
+
+    private void layoutComponents() {
+        this.setCenter(this.gpUnreadMails);
+    }
+
+    private void installActionListeners() {
+        startupPeriodicMailChecking();
+    }
+
+    private void startupPeriodicMailChecking() {
+        initiateMailChecking();
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.seconds(60),
+                ae -> initiateMailChecking()));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    private void initiateMailChecking() {
+        Arrays.asList(M_ACCOUNTS).forEach(account -> {
+            log("check account " + account);
+            this.presenter.performMailCheck(account);
+        });
+    }
+    
+    private void log(String message) {
+        System.out.println("[" + this.getClass().getSimpleName() + "] " + message);
+    }
+
+    @Override
+    public void onMailCheckPerformed(MailAccount account, int unreadMessages) {
+        AtomicInteger row = new AtomicInteger(0);
+        Arrays.asList(M_ACCOUNTS).forEach(a -> {
+            if(a.getName().equals(account.getName())) {
+                this.gpUnreadMails.add(new Label(account.getName()), 1, row.get());
+                String style = unreadMessages > 0  ? "lbl-danger" : "lbl-success";
+                this.gpUnreadMails.add(new StyledLabel("" + unreadMessages, "lbl", style), 0, row.get());
+            }
+            row.incrementAndGet();
+        });
+    }
+
+    @Override
+    public void onMailCheckerException(MailCheckerException ex) {
+        ex.printStackTrace();
+    }
+}
