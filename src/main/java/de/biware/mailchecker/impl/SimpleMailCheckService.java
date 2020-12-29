@@ -37,9 +37,12 @@ public class SimpleMailCheckService implements MailCheckService {
             }
         });
         try {
+            log("locate imap store");
             Store store = session.getStore("imap");
             store.connect();
+            log("locate inbox folder");
             Folder fldr = store.getFolder("Inbox");
+            log("open inbox folder");
             fldr.open(1);
             return fldr;
         } catch (MessagingException exc) {

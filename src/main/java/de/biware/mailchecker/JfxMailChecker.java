@@ -8,9 +8,11 @@ package de.biware.mailchecker;
 import de.biware.mailchecker.impl.SimpleMailCheckService;
 import de.biware.mailchecker.ui.DefaultMailCheckPresenter;
 import de.biware.mailchecker.ui.DefaultMailCheckView;
+import de.biware.mailchecker.ui.MailCheckView;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
@@ -36,10 +38,10 @@ public class JfxMailChecker extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         BorderPane content = new DefaultMailCheckView(new DefaultMailCheckPresenter(new SimpleMailCheckService()));
-        
+
         HBox top = new HBox(3);
         VBox center = new VBox(3, top, content);
-        
+
         Button exit = new Button();
         GlyphsDude.setIcon(exit, FontAwesomeIcon.POWER_OFF);
         top.getChildren().add(exit);
@@ -47,7 +49,7 @@ public class JfxMailChecker extends Application {
 
         Scene scene = new Scene(center);
         scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
-        
+
         //grab your root here
         content.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -67,14 +69,16 @@ public class JfxMailChecker extends Application {
             }
         });
 
-       primaryStage.setTitle("Mail Checker");
+        primaryStage.setTitle("Mail Checker");
         primaryStage.setScene(scene);
-        primaryStage.sizeToScene();
-        primaryStage.initStyle(StageStyle.UNDECORATED);
+        //primaryStage.sizeToScene();
+        //primaryStage.initStyle(StageStyle.UNDECORATED);
         this.positioningStageOnScreen(primaryStage);
-        primaryStage.show(); 
+        primaryStage.show();
+        
+        Platform.runLater(() -> ((MailCheckView)content).startupPeriodicMailChecking() );
     }
-    
+
     private void log(String message) {
         System.out.println("[" + this.getClass().getSimpleName() + "] " + message);
     }
@@ -84,9 +88,11 @@ public class JfxMailChecker extends Application {
         //log("screen size " + primScreenBounds.getWidth() + " x " + primScreenBounds.getHeight());
         //log("staget size " + primaryStage.getWidth() + " x " + primaryStage.getHeight());
         primaryStage.setX(0);
-        primaryStage.setY(primScreenBounds.getHeight() - 100);
+        primaryStage.setY(primScreenBounds.getHeight() - 210);
+        primaryStage.setWidth(600);
+        primaryStage.setHeight(200);
     }
-    
+
     public static void main(String... args) {
         launch(args);
     }

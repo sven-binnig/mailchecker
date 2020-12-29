@@ -51,6 +51,7 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
         this.gpUnreadMails.setVgap(5);
         this.gpUnreadMails.setHgap(15);
         this.message = new Label();
+        this.message.getStyleClass().addAll("lbl", "lbl-primary");
     }
 
     private void layoutComponents() {
@@ -59,11 +60,12 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
     }
 
     private void installActionListeners() {
-        Platform.runLater(() -> startupPeriodicMailChecking() );
+        //Platform.runLater(() -> startupPeriodicMailChecking() );
         
     }
 
-    private void startupPeriodicMailChecking() {
+    @Override
+    public void startupPeriodicMailChecking() {
         initiateMailChecking();
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.seconds(60),
@@ -81,6 +83,7 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
     
     private void log(String message) {
         System.out.println("[" + this.getClass().getSimpleName() + "] " + message);
+        //Platform.runLater(() -> this.message.setText(message));
         this.message.setText(message);
     }
 
@@ -100,5 +103,6 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
     @Override
     public void onMailCheckerException(MailCheckerException ex) {
         ex.printStackTrace();
+        this.message.setText(ex.getMessage());
     }
 }
