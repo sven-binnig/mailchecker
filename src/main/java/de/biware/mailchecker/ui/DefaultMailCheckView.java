@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -30,6 +31,7 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
     };
     private GridPane gpUnreadMails;
     private final MailCheckPresenter presenter;
+    private Label message;
 
     public DefaultMailCheckView(MailCheckPresenter presenter) {
         super();
@@ -48,14 +50,17 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
         this.gpUnreadMails = new GridPane();
         this.gpUnreadMails.setVgap(5);
         this.gpUnreadMails.setHgap(15);
+        this.message = new Label();
     }
 
     private void layoutComponents() {
         this.setCenter(this.gpUnreadMails);
+        this.setBottom(this.message);
     }
 
     private void installActionListeners() {
-        startupPeriodicMailChecking();
+        Platform.runLater(() -> startupPeriodicMailChecking() );
+        
     }
 
     private void startupPeriodicMailChecking() {
@@ -76,6 +81,7 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
     
     private void log(String message) {
         System.out.println("[" + this.getClass().getSimpleName() + "] " + message);
+        this.message.setText(message);
     }
 
     @Override

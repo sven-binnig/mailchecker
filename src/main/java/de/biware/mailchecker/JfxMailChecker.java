@@ -47,7 +47,7 @@ public class JfxMailChecker extends Application {
 
         Scene scene = new Scene(center);
         scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
-
+        
         //grab your root here
         content.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -67,12 +67,12 @@ public class JfxMailChecker extends Application {
             }
         });
 
-        primaryStage.setTitle("Mail Checker");
+       primaryStage.setTitle("Mail Checker");
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
         primaryStage.initStyle(StageStyle.UNDECORATED);
         this.positioningStageOnScreen(primaryStage);
-        primaryStage.show();
+        primaryStage.show(); 
     }
     
     private void log(String message) {
