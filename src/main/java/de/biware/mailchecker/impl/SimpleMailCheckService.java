@@ -1,16 +1,13 @@
-/*    */ package de.biware.mailchecker.impl;
+package de.biware.mailchecker.impl;
 
-/*    */
- /*    */ import de.biware.mailchecker.api.MailAccount;
-/*    */ import de.biware.mailchecker.api.MailCheckService;
-/*    */ import de.biware.mailchecker.api.MailCheckerException;
+import de.biware.mailchecker.api.MailAccount;
+import de.biware.mailchecker.api.MailCheckService;
+import de.biware.mailchecker.api.MailCheckerException;
 import de.biware.mailchecker.api.MailShortInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.Authenticator;
 import javax.mail.Flags;
 import javax.mail.Folder;
@@ -27,9 +24,12 @@ public class SimpleMailCheckService implements MailCheckService {
         Properties props = new Properties();
         props.put("mail.imap.host", forAccount.getHost());
         props.put("mail.imap.user", forAccount.getUser());
-        props.put("mail.imap.socketFactory", Integer.valueOf(993));
+        //props.put("mail.imap.socketFactory.port", Integer.valueOf(993));
         props.put("mail.imap.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.imap.port", Integer.valueOf(forAccount.getPort()));
+        props.setProperty("mail.imap.socketFactory.fallback", "false");
+        props.setProperty("mail.imap.socketFactory.port", "993");
+        props.put("mail.imap.ssl.protocols", "TLSv1.2");
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 SimpleMailCheckService.this.log("authenticate as " + forAccount.getName());
@@ -39,6 +39,7 @@ public class SimpleMailCheckService implements MailCheckService {
         try {
             log("locate imap store");
             Store store = session.getStore("imap");
+            log("connect to imap store");
             store.connect();
             log("locate inbox folder");
             Folder fldr = store.getFolder("Inbox");
@@ -84,7 +85,7 @@ public class SimpleMailCheckService implements MailCheckService {
                     //
                 }
             });
-            
+
             fldr.getStore().close();
             return result;
         } catch (MessagingException exc) {

@@ -42,10 +42,10 @@ public class JfxMailChecker extends Application {
         HBox top = new HBox(3);
         VBox center = new VBox(3, top, content);
 
-        Button exit = new Button();
-        GlyphsDude.setIcon(exit, FontAwesomeIcon.POWER_OFF);
-        top.getChildren().add(exit);
-        exit.setOnAction(ae -> System.exit(0));
+        //Button exit = new Button();
+        //GlyphsDude.setIcon(exit, FontAwesomeIcon.POWER_OFF);
+        //top.getChildren().add(exit);
+        //exit.setOnAction(ae -> System.exit(0));
 
         Scene scene = new Scene(center);
         scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
@@ -88,9 +88,9 @@ public class JfxMailChecker extends Application {
         //log("screen size " + primScreenBounds.getWidth() + " x " + primScreenBounds.getHeight());
         //log("staget size " + primaryStage.getWidth() + " x " + primaryStage.getHeight());
         primaryStage.setX(0);
-        primaryStage.setY(primScreenBounds.getHeight() - 210);
-        primaryStage.setWidth(600);
-        primaryStage.setHeight(200);
+        primaryStage.setY(primScreenBounds.getHeight() - 130);
+        primaryStage.setWidth(300);
+        primaryStage.setHeight(120);
     }
 
     public static void main(String... args) {

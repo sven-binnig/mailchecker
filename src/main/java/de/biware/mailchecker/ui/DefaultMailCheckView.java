@@ -27,7 +27,6 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
     private static final MailAccount[] M_ACCOUNTS = {
         new MailAccount("Corina Dörnenburg", "corina.doernenburg@posteo.de", "Kacs6670", "posteo.de", 993),
         new MailAccount("Sven Binnig", "sven.binnig@posteo.de", "Kacs6670", "posteo.de", 993)
-        
     };
     private GridPane gpUnreadMails;
     private final MailCheckPresenter presenter;
@@ -51,7 +50,7 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
         this.gpUnreadMails.setVgap(5);
         this.gpUnreadMails.setHgap(15);
         this.message = new Label();
-        this.message.getStyleClass().addAll("lbl", "lbl-primary");
+        //this.message.getStyleClass().addAll("lbl", "lbl-primary");
     }
 
     private void layoutComponents() {
@@ -61,7 +60,7 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
 
     private void installActionListeners() {
         //Platform.runLater(() -> startupPeriodicMailChecking() );
-        
+
     }
 
     @Override
@@ -78,9 +77,10 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
         Arrays.asList(M_ACCOUNTS).forEach(account -> {
             log("check account " + account);
             this.presenter.performMailCheck(account);
+            log(" ");
         });
     }
-    
+
     private void log(String message) {
         System.out.println("[" + this.getClass().getSimpleName() + "] " + message);
         //Platform.runLater(() -> this.message.setText(message));
@@ -91,9 +91,9 @@ public class DefaultMailCheckView extends BorderPane implements MailCheckView {
     public void onMailCheckPerformed(MailAccount account, int unreadMessages) {
         AtomicInteger row = new AtomicInteger(0);
         Arrays.asList(M_ACCOUNTS).forEach(a -> {
-            if(a.getName().equals(account.getName())) {
+            if (a.getName().equals(account.getName())) {
                 this.gpUnreadMails.add(new Label(account.getName()), 1, row.get());
-                String style = unreadMessages > 0  ? "lbl-danger" : "lbl-success";
+                String style = unreadMessages > 0 ? "lbl-danger" : "lbl-success";
                 this.gpUnreadMails.add(new StyledLabel("" + unreadMessages, "lbl", style), 0, row.get());
             }
             row.incrementAndGet();
