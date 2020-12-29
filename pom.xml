@@ -27,4 +27,6 @@
             <version>8.9</version>
         </dependency>
     </dependencies>
+    <description>https://github.com/signalapp/libsignal-protocol-java
+https://core.telegram.org/</description>
 </project>
