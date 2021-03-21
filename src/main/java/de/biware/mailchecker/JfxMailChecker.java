@@ -88,9 +88,9 @@ public class JfxMailChecker extends Application {
         //log("screen size " + primScreenBounds.getWidth() + " x " + primScreenBounds.getHeight());
         //log("staget size " + primaryStage.getWidth() + " x " + primaryStage.getHeight());
         primaryStage.setX(0);
-        primaryStage.setY(primScreenBounds.getHeight() - 130);
+        primaryStage.setY(primScreenBounds.getHeight() - 150);
         primaryStage.setWidth(300);
-        primaryStage.setHeight(120);
+        primaryStage.setHeight(150);
     }
 
     public static void main(String... args) {
