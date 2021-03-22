@@ -28,7 +28,14 @@
             <artifactId>fontawesomefx</artifactId>
             <version>8.9</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+
     </dependencies>
     <description>https://github.com/signalapp/libsignal-protocol-java
-https://core.telegram.org/</description>
+        https://core.telegram.org/</description>
 </project>

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Corina Dörnenburg (posteo)",
+    "user": "corina.doernenburg@posteo.de",
+    "password": "Kacs6670",
+    "host": "posteo.de",
+    "port": 993
+  },
+  {
+    "name": "Sven Binnig (posteo)",
+    "user": "sven.binnig@posteo.de",
+    "password": "Kacs6670",
+    "host": "posteo.de",
+    "port": 993
+  },
+  {
+    "name": "Corina Dörnenburg (ekiba)",
+    "user": "corina.doernenburg@kbz.ekiba.de",
+    "password": "C10d_08oe!",
+    "host": "outlook.office.de",
+    "port": 993
+  }
+]
