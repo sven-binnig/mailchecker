@@ -23,12 +23,6 @@ import javafx.util.Duration;
  * @author svenina
  */
 public class DefaultMailCheckView extends BorderPane implements MailCheckView {
-
-    //private static final MailAccount[] M_ACCOUNTS = {
-    //    new MailAccount("Corina Dörnenburg (posteo)", "corina.doernenburg@posteo.de", "Kacs6670", "posteo.de", 993),
-    //    new MailAccount("Sven Binnig (posteo)", "sven.binnig@posteo.de", "Kacs6670", "posteo.de", 993),
-    //    new MailAccount("Corina Dörnenburg (ekiba)", "corina.doernenburg@kbz.ekiba.de", "C10d_08oe!", "outlook.office.de", 993)
-    //};
     private GridPane gpUnreadMails;
     private final MailCheckPresenter presenter;
     private final MailAccountConfiguration config;
